@@ -33,7 +33,7 @@ endfunction
 function! s:right(t, line) abort
   let v = getline(a:line)
   if a:t == '#'
-    if len(matchlist(v, '\v^(#+)(.+)$')[1]) == 6
+    if len(matchlist(v, '\v^(#+)\s*(.+)$')[1]) >= 6
       return 0
     endif
     call setline(a:line, '#' . v)
@@ -53,7 +53,7 @@ function! s:left(t, line) abort
   let v = getline(a:line)
 
   if a:t == '#'
-    let m = matchlist(v, '\v^(#+)(.+)$')
+    let m = matchlist(v, '\v^(#+)\s*(.+)$')
     let n = len(m[1])
     if n == 1
       return 0
@@ -84,7 +84,7 @@ endfunction
 
 function! s:header_type(line) abort
   let v = getline(a:line)
-  if v =~ '^\V#\.'
+  if v =~ '\v^#{1,6}[^#]'
     return '#'
   endif
 
