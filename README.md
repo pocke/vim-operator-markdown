@@ -45,8 +45,13 @@ Usage
 =========
 
 
-TODO
+### `<Plug>(operator-markdown-left)`
 
+![left](https://cloud.githubusercontent.com/assets/4361134/13113218/741ed90a-d5d1-11e5-87c0-d32c79925c4a.gif)
+
+### `<Plug>(operator-markdown-right)`
+
+![right](https://cloud.githubusercontent.com/assets/4361134/13113217/741aefca-d5d1-11e5-92bb-831859a81319.gif)
 
 
 
