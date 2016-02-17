@@ -33,6 +33,9 @@ endfunction
 function! s:right(t, line) abort
   let v = getline(a:line)
   if a:t == '#'
+    if len(matchlist(v, '\v^(#+)(.+)$')[1]) == 6
+      return 0
+    endif
     call setline(a:line, '#' . v)
   elseif a:t == '='
     let x = getline(a:line+1)
