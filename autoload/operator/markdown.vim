@@ -47,7 +47,9 @@ endfunction
 function! s:left(t, line) abort
   let v = getline(a:line)
   if a:t == '#'
-    call setline(a:line, v[1:])
+    if v !~ '\v^#[^#]'
+      call setline(a:line, v[1:])
+    endif
   elseif a:t == '='
     " なにもしない
   elseif a:t == '-'
