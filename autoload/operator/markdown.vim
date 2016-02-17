@@ -19,12 +19,9 @@ function! s:loop(f) abort
   while line <= end_l
     let t = s:header_type(line)
 
-    if t == ''
-      let line += 1
-      continue
+    if t != ''
+      let end_l += a:f(t, line)
     endif
-
-    let end_l += a:f(t, line)
 
     let line += 1
   endwhile
