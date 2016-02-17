@@ -1,6 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+let g:operator#markdown#force_header_underline = get(g:, 'operator#markdown#force_header_underline', 0)
+
 function! operator#markdown#right_header(_motion_wise) abort
   call s:loop(function('s:right'))
 endfunction
@@ -46,16 +48,34 @@ endfunction
 
 function! s:left(t, line) abort
   let v = getline(a:line)
+
   if a:t == '#'
-    if v !~ '\v^#[^#]'
-      call setline(a:line, v[1:])
+    let m = matchlist(v, '\v^(#+)(.+)$')
+    let n = len(m[1])
+    if n == 1
+      return 0
     endif
+
+    if g:operator#markdown#force_header_underline && n <= 3
+      call setline(a:line, m[2])
+      if n == 2
+        call append(a:line, substitute(m[2], '.', '=', 'g'))
+      elseif n == 3
+        call append(a:line, substitute(m[2], '.', '-', 'g'))
+      endif
+
+      return 0
+    endif
+
+    call setline(a:line, v[1:])
+
   elseif a:t == '='
     " なにもしない
   elseif a:t == '-'
     let x = getline(a:line+1)
     call setline(a:line+1, substitute(x, '.', '=', 'g'))
   endif
+
   return 0
 endfunction
 
