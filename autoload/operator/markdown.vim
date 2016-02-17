@@ -1,42 +1,16 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! operator#markdown#right_header(motion_wise) abort
-  let start_l = getpos("'[")[1]
-  let end_l   = getpos("']")[1]
+function! operator#markdown#right_header(_motion_wise) abort
+  call s:loop(function('s:right'))
+endfunction
 
-  let line = start_l
-
-  while line <= end_l
-    let t = s:header_type(line)
-
-    if t == ''
-      let line += 1
-      continue
-    endif
-
-    let v = getline(line)
-    if t == '#'
-      call setline(line, '#' . v)
-    elseif t == '='
-      let x = getline(line+1)
-      call setline(line+1, substitute(x, '.', '-', 'g'))
-    elseif t == '-'
-      call setline(line, '### ' . v)
-      execute string(line+1) . 'delete'
-      normal! k
-      let end_l -= 1
-    endif
-
-    let line += 1
-  endwhile
-
-  return
+function! operator#markdown#left_header(_motion_wise) abort
+  call s:loop(function('s:left'))
 endfunction
 
 
-" TODO: DRY
-function! operator#markdown#left_header(motion_wise) abort
+function! s:loop(f) abort
   let start_l = getpos("'[")[1]
   let end_l   = getpos("']")[1]
 
@@ -50,20 +24,40 @@ function! operator#markdown#left_header(motion_wise) abort
       continue
     endif
 
-    let v = getline(line)
-    if t == '#'
-      call setline(line, v[1:])
-    elseif t == '='
-      " なにもしない
-    elseif t == '-'
-      let x = getline(line+1)
-      call setline(line+1, substitute(x, '.', '=', 'g'))
-    endif
+    let end_l += a:f(t, line)
 
     let line += 1
   endwhile
+endfunction
 
-  return
+
+function! s:right(t, line) abort
+  let v = getline(a:line)
+  if a:t == '#'
+    call setline(a:line, '#' . v)
+  elseif a:t == '='
+    let x = getline(a:line+1)
+    call setline(a:line+1, substitute(x, '.', '-', 'g'))
+  elseif a:t == '-'
+    call setline(a:line, '### ' . v)
+    execute string(a:line+1) . 'delete'
+    normal! k
+    return -1
+  endif
+  return 0
+endfunction
+
+function! s:left(t, line) abort
+  let v = getline(a:line)
+  if a:t == '#'
+    call setline(a:line, v[1:])
+  elseif a:t == '='
+    " なにもしない
+  elseif a:t == '-'
+    let x = getline(a:line+1)
+    call setline(a:line+1, substitute(x, '.', '=', 'g'))
+  endif
+  return 0
 endfunction
 
 function! s:header_type(line) abort
