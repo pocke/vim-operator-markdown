@@ -61,10 +61,11 @@ function! s:left(t, line) abort
 
     if g:operator#markdown#force_header_underline && n <= 3
       call setline(a:line, m[2])
+      let s = len(m[2]) < 5 ? 'xxxx' : m[2]
       if n == 2
-        call append(a:line, substitute(m[2], '.', '=', 'g'))
+        call append(a:line, substitute(s, '.', '=', 'g'))
       elseif n == 3
-        call append(a:line, substitute(m[2], '.', '-', 'g'))
+        call append(a:line, substitute(s, '.', '-', 'g'))
       endif
 
       return 0
