@@ -35,7 +35,7 @@ Setting example
 
 
 
-```markdown
+```vim
 autocmd FileType markdown map <buffer>< <Plug>(operator-markdown-left)
 autocmd FileType markdown map <buffer>> <Plug>(operator-markdown-right)
 ```
@@ -58,6 +58,13 @@ Usage
 
 
 ![force_underline](https://cloud.githubusercontent.com/assets/4361134/13131159/01aaf4b0-d62d-11e5-80e3-2d349c80959e.gif)
+
+
+Links
+=========
+
+- [Markdown 用 Operator Vim プラグインを作った - pockestrap](http://pocke.hatenablog.com/entry/2016/02/18/110630)
+- [pocke/vim-textobj-markdown](https://github.com/pocke/vim-textobj-markdown)
 
 
 License
