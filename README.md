@@ -54,6 +54,11 @@ Usage
 ![right](https://cloud.githubusercontent.com/assets/4361134/13113217/741aefca-d5d1-11e5-92bb-831859a81319.gif)
 
 
+### `g:operator#markdown#force_header_underline`
+
+
+![force_underline](https://cloud.githubusercontent.com/assets/4361134/13131159/01aaf4b0-d62d-11e5-80e3-2d349c80959e.gif)
+
 
 License
 ===========
